@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+docker run -i --rm --volume $PWD:/data --workdir /data rakudo-star:alpine rakudo - "$@" <<'END_SCRIPT'
+#!/usr/bin/rakudo
+use v6;
+
+my $name = 'hombre';
+
+say "This is $name";
+END_SCRIPT
+
+# vim: filetype=raku

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+image='local/rakudo-star-alpine:myproj'
+
+if ! docker image inspect -f '{{.Id}}' $image &>/dev/null ; then
+(
+    cd $(mktemp -d)
+    docker build -t $image -f - . <<'END_DOCKERFILE'
+    FROM rakudo-star:alpine
+    RUN zef install Data::Dump
+END_DOCKERFILE
+)
+fi
+
+docker run -i --rm --volume $PWD:/data --workdir /data $image ./dkwrap.p6 "$@"

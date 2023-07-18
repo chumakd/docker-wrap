@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+docker run -i --rm --volume $PWD:/data --workdir /data ubuntu:22.04 ./dkwrap.sh "$@"
